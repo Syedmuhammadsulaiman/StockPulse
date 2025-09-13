@@ -28,8 +28,10 @@ pip install flask flask-pymongo flask-wtf flask-bcrypt flask-login python-dotenv
 ```
 
 ### 🔑 Environment Variables
+```bash
 SECRET_KEY=your-secret-key
 MONGO_URI=your-mongodb-uri
+```
 
 ### 🚀 Run the Application
 ```bash
