@@ -2,44 +2,53 @@
 {% block title %}Stock Pulse | Login{% endblock %}
 {% block content %}
 <div class="flex items-center justify-center min-h-screen bg-emerald-50 p-6">
-    <div
-        class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-emerald-100 animate__animated animate__fadeInUp animate__faster">
+    <div class="glowing-border">
+        <div
+            class="bg-white p-8 px-16 rounded-2xl shadow-xl w-full max-w-md border border-emerald-100 animate__animated animate__fadeInUp animate__faster">
 
-        <!-- Heading -->
-        <div class="text-center mb-8 animate__animated animate__fadeInDown animate__delay-1s">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stock Pulse Logo"
-                class="h-16 w-16 mx-auto mb-3 animate__animated animate__bounceIn animate__delay-1s">
-            <h2 class="text-3xl font-bold text-green-800">Welcome Back</h2>
-            <p class="text-green-600 mt-2 text-sm">Login to continue to <span class="font-semibold">Stock Pulse</span>
-            </p>
-        </div>
-
-        <!-- Form -->
-        <form id="loginForm" class="space-y-5 animate__animated animate__fadeInUp animate__delay-2s">
-            <div>
-                <input name="email" type="email" placeholder="Email"
-                    class="w-full p-3 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none transition" required />
+            <!-- Heading -->
+            <div class="text-center mb-8 animate__animated animate__fadeInDown animate__delay-1s">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stock Pulse Logo"
+                    class="h-16 w-16 mx-auto mb-3 animate__animated animate__bounceIn animate__delay-1s">
+                <h2 class="text-3xl font-bold text-green-800">Welcome Back</h2>
+                <p class="text-green-600 mt-2 text-sm">Login to continue to <span class="font-semibold">Stock
+                        Pulse</span>
+                </p>
             </div>
-            <div>
-                <input name="password" type="password" placeholder="Password"
-                    class="w-full p-3 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none transition" required />
+
+            <!-- Form -->
+            <form id="loginForm" class="space-y-5 animate__animated animate__fadeInUp animate__delay-2s">
+                <div>
+                    <input name="email" type="email" placeholder="Email"
+                        class="w-full p-3 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+                        required />
+                </div>
+                <div>
+                    <input name="password" type="password" placeholder="Password"
+                        class="w-full p-3 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:outline-none transition"
+                        required />
+                </div>
+                <div class="mask-button-container animate__animated animate__pulse animate__delay-3s animate__repeat-2">
+                    <span class="mas">Login</span>
+                    <button type="submit" class="mask-button">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+
+            <!-- Extra Links -->
+            <div class="mt-6 text-center animate__animated animate__fadeIn animate__delay-3s">
+                <p class="text-sm text-gray-600">
+                    Don’t have an account?
+                    <a href="{{ url_for('register') }}" class="text-emerald-600 font-semibold hover:underline">Sign
+                        Up</a>
+                </p>
             </div>
-            <button type="submit"
-                class="w-full bg-gradient-to-r from-emerald-600 to-green-500 text-white font-semibold py-3 rounded-lg shadow-md hover:from-emerald-700 hover:to-green-600 transition duration-300 transform hover:-translate-y-0.5 animate__animated animate__pulse animate__delay-3s animate__repeat-2">
-                Login
-            </button>
-        </form>
-
-
-        <!-- Extra Links -->
-        <div class="mt-6 text-center animate__animated animate__fadeIn animate__delay-3s">
-            <p class="text-sm text-gray-600">
-                Don’t have an account?
-                <a href="{{ url_for('register') }}" class="text-emerald-600 font-semibold hover:underline">Sign Up</a>
-            </p>
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
