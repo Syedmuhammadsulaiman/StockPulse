@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Stock Pulse | Welcome{% endblock %}
+
+{% block content %}
+
+<!-- Splash Screen -->
+<div id="splashScreen" class="fixed inset-0 bg-emerald-900 flex flex-col items-center justify-center text-white z-50">
+    <!-- Logo Animation -->
+    <div class="animate__animated animate__fadeInDown">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stock Pulse Logo"
+            class="h-28 w-28 mb-6 animate__animated animate__pulse animate__infinite">
+    </div>
+    <!-- App Name -->
+    <h1 class="text-5xl font-bold tracking-wide animate__animated animate__fadeInUp animate__delay-1s">
+        Stock Pulse
+    </h1>
+    <!-- Tagline -->
+    <p class="mt-4 text-lg text-emerald-200 animate__animated animate__fadeIn animate__delay-2s">
+        Analyzing Markets, Powering Decisions
+    </p>
+</div>
+
+<!-- Main Page Content -->
+<div id="mainContent" class="hidden">
+    <div class="min-h-screen bg-emerald-50 flex items-center justify-center p-6">
+        <div
+            class="bg-white p-8 sm:p-12 rounded-3xl shadow-xl w-full max-w-6xl text-center border border-emerald-100/50 animate__animated animate__fadeIn">
+
+            <!-- Logo and Heading -->
+            <div class="flex flex-col justify-center items-center mb-8 relative animate__animated animate__fadeInDown">
+                <div class="relative mb-5">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stock Pulse Logo"
+                        class="h-28 w-28 mx-auto animate__animated animate__bounceIn">
+                    <div class="absolute -inset-4 rounded-full -z-10"></div>
+                </div>
+                <h1
+                    class="text-4xl md:text-6xl font-black text-green-800 mb-2 tracking-tight animate__animated animate__zoomIn">
+                    Stock Pulse</h1>
+                <div
+                    class="h-1.5 w-24 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full mb-2 animate__animated animate__fadeInLeft">
+                </div>
+                <p class="text-green-600 font-medium text-xl animate__animated animate__fadeInUp animate__delay-1s">
+                    Stock Price Anomaly Detection System</p>
+            </div>
+
+            <!-- Description -->
+            <div
+                class="mb-10 text-gray-700 md:text-md leading-relaxed bg-green-50/50 p-8 rounded-2xl border border-green-100 max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-1s">
+                <p class="mb-4">
+                    Analyze stock trends, detect anomalies, and make data-driven investment decisions with our powerful
+                    platform.
+                </p>
+                <p class="mb-4">
+                    Our advanced algorithms help you identify opportunities and risks in the market with precision and
+                    clarity.
+                </p>
+                <p>
+                    Get started today to transform your investment strategy and join our community of successful
+                    traders.
+                </p>
+            </div>
+
+            <!-- Buttons -->
+            <div
+                class="flex flex-col sm:flex-row gap-4 justify-center mb-10 max-w-md mx-auto animate__animated animate__fadeInUp animate__delay-2s">
+                <a href="{{ url_for('register') }}"
+                    class="w-full sm:w-48 relative flex items-center justify-center group border-2 border-emerald-600 bg-white text-emerald-700 hover:bg-emerald-600 hover:text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 shadow-md hover:shadow-emerald-200 text-base">
+                    <span class="relative z-10 mr-2">Get Started</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 transition-colors duration-300 group-hover:text-white" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="{{ url_for('login') }}"
+                    class="w-full sm:w-48 relative flex items-center justify-center group bg-gradient-to-r from-emerald-600 to-green-500 hover:from-white hover:to-white text-white hover:text-emerald-700 border-2 border-transparent hover:border-emerald-600 font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 shadow-md hover:shadow-emerald-200 text-base">
+                    <span class="relative z-10">Sign In</span>
+                </a>
+            </div>
+
+            <!-- Features Cards -->
+            <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto animate__animated animate__fadeInUp animate__delay-3s">
+                <!-- Data Processing Card -->
+                <div
+                    class="p-6 bg-white rounded-xl border border-green-100 shadow-sm hover:shadow-md transition-shadow animate__animated animate__zoomIn">
+                    <div
+                        class="inline-flex items-center justify-center w-14 h-14 mb-4 bg-green-100 rounded-full text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-emerald-800 mb-2 text-lg">Data Processing</h3>
+                    <p class="text-gray-600 text-sm">
+                        Clean missing values, parse dates, handle inconsistencies, and perform
+                        normalization/standardization to prepare datasets for analysis as specified in the SRS
+                        requirements.
+                    </p>
+                </div>
+
+                <!-- Anomaly Detection Card -->
+                <div
+                    class="p-6 bg-white rounded-xl border border-green-100 shadow-sm hover:shadow-md transition-shadow animate__animated animate__zoomIn animate__delay-1s">
+                    <div
+                        class="inline-flex items-center justify-center w-14 h-14 mb-4 bg-green-100 rounded-full text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-emerald-800 mb-2 text-lg">Anomaly Detection</h3>
+                    <p class="text-gray-600 text-sm">
+                        Implement data science-driven algorithms like Isolation Forest or SVM to identify unusual stock
+                        behavior patterns, spikes, or dips that deviate from expected trends.
+                    </p>
+                </div>
+
+                <!-- Visualization & Reporting Card -->
+                <div
+                    class="p-6 bg-white rounded-xl border border-green-100 shadow-sm hover:shadow-md transition-shadow animate__animated animate__zoomIn animate__delay-2s">
+                    <div
+                        class="inline-flex items-center justify-center w-14 h-14 mb-4 bg-green-100 rounded-full text-emerald-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-emerald-800 mb-2 text-lg">Visualization & Reporting</h3>
+                    <p class="text-gray-600 text-sm">
+                        Generate interactive dashboards displaying key trends, time series plots, and highlighted
+                        anomalies. Export comprehensive reports for documentation and decision-making support.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Additional info -->
+            <div
+                class="bg-gradient-to-r from-emerald-500 to-green-600 p-6 rounded-2xl text-white max-w-3xl mx-auto animate__animated animate__fadeInUp animate__delay-4s">
+                <p class="text-lg font-medium">
+                    Join <span class="font-bold text-2xl">15,000+</span> investors using Stock Pulse to enhance their
+                    trading strategies.
+                </p>
+                <p class="text-emerald-100 mt-2">Start your journey to smarter investing today</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Script to hide splash after 3s -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            document.getElementById("splashScreen").style.display = "none";
+            document.getElementById("mainContent").classList.remove("hidden");
+        }, 4000); // 3 seconds
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% block title %}Stock Pulse | Analysis{% endblock %}
+{% block content %}
+
+<!-- Splash Screen -->
+<div id="splashScreen" class="fixed inset-0 bg-emerald-900 flex flex-col items-center justify-center text-white z-50">
+    <!-- Logo Animation -->
+    <div class="animate__animated animate__fadeInDown">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Stock Pulse Logo"
+            class="h-28 w-28 mb-6 animate__animated animate__pulse animate__infinite">
+    </div>
+    <!-- App Name -->
+    <h1 class="text-5xl font-bold tracking-wide animate__animated animate__fadeInUp animate__delay-1s">
+        Stock Pulse
+    </h1>
+    <!-- Tagline -->
+    <p class="mt-4 text-lg text-emerald-200 animate__animated animate__fadeIn animate__delay-2s">
+        Analyzing Markets, Powering Decisions
+    </p>
+</div>
+
+<div class="max-w-6xl mx-auto p-6 hidden" id="mainContent">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+            </svg>
+        </div>
+        <h1 class="text-4xl font-bold text-green-800 mb-2">Data Analysis Center</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+            Upload your stock market dataset to detect anomalies and uncover valuable insights
+        </p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="bg-gradient-to-br from-white to-green-50 border border-green-100 rounded-2xl shadow-lg p-8 mb-8">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-semibold text-green-800 mb-2">Upload Your Dataset</h2>
+                <p class="text-gray-600">Supported formats: CSV</p>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                <!-- File Upload -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Select Dataset File</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label
+                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-green-300 rounded-2xl cursor-pointer bg-white hover:bg-green-50 transition-colors duration-200">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mb-3 text-green-500"
+                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" />
+                                </svg>
+                                <p class="mb-2 text-sm text-gray-500">
+                                    <span class="font-semibold">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="text-xs text-gray-500">CSV (MAX. 10MB)</p>
+                                <p id="file-name" class="text-sm text-green-700 mt-2"></p>
+                            </div>
+                            <input type="file" name="dataset" accept=".csv" required class="hidden" id="dataset-file">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-4 px-6 rounded-xl shadow-md hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:-translate-y-0.5 font-semibold text-lg">
+                    <div class="flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+                        </svg>
+                        Run Advanced Analysis
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    {% if results %}
+    <div class="space-y-8">
+        <!-- Results Card -->
+        <div class="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-4">
+                <h2 class="text-xl font-semibold text-white">Analysis Results</h2>
+            </div>
+            <div class="p-6">
+                {% if uploaded_filename %}
+                <p class="text-green-700 font-medium mb-2">Uploaded file: {{ uploaded_filename }}</p>
+                {% endif %}
+                <div class="overflow-x-auto rounded-lg border border-gray-200">
+                    {{ results|safe }}
+                </div>
+
+                <!-- Export Buttons (side by side) -->
+                <div class="mt-6 flex justify-end space-x-4">
+                    <form method="POST" action="{{ url_for('export_report') }}">
+                        <button type="submit" title="Export Full Report (Excel)"
+                            class="flex items-center px-6 py-3 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transition-all duration-200 transform hover:-translate-y-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ url_for('export_pdf') }}">
+                        <button type="submit" title="Download Report (PDF)"
+                            class="flex items-center px-6 py-3 bg-red-600 text-white rounded-xl shadow hover:bg-red-700 transition-all duration-200 transform hover:-translate-y-0.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <form method="GET" action="{{ url_for('analysis') }}" class="mt-2 flex justify-end">
+                    <button type="submit"
+                        class="flex items-center px-6 py-3 bg-gray-400 text-white rounded-xl shadow hover:bg-gray-500 transition-all duration-200 transform hover:-translate-y-0.5">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Clear Analysis
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Chart Card -->
+        {% if chartJSON %}
+        <div class="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-4 flex items-center justify-between">
+                <h2 class="text-xl font-semibold text-white">Interactive Visualization</h2>
+                <!-- Graph Selector Dropdown -->
+                <select id="chart-select" class="rounded-lg p-1 text-sm">
+                    {% for name in chartDict.keys() %}
+                    <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="p-6">
+                <div id="plotly-chart" class="rounded-lg border border-gray-200 p-4 h-96"></div>
+            </div>
+        </div>
+
+        <!-- Side-by-side Graphs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <!-- Bar Chart -->
+            <div class="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-3">
+                    <h2 class="text-lg font-semibold text-white">Volume (Bar Chart)</h2>
+                </div>
+                <div class="p-4">
+                    <div id="bar-chart" class="h-80"></div>
+                </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
+                <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-3">
+                    <h2 class="text-lg font-semibold text-white">Residual Magnitude Distribution (Pie Chart)</h2>
+                </div>
+                <div class="p-4">
+                    <div id="pie-chart" class="h-80"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            var chartDataDict = {{ chartJSON | safe }};
+            var chartDiv = document.getElementById('plotly-chart');
+
+            // Initial plot
+            var firstChart = Object.keys(chartDataDict)[0];
+            Plotly.newPlot(chartDiv, chartDataDict[firstChart].data, chartDataDict[firstChart].layout, {
+                responsive: true, displayModeBar: true, displaylogo: false
+            });
+
+            // Update chart on dropdown change
+            document.getElementById('chart-select').addEventListener('change', function () {
+                var selected = this.value;
+                var chartData = chartDataDict[selected];
+                Plotly.react(chartDiv, chartData.data, chartData.layout, {
+                    responsive: true, displayModeBar: true, displaylogo: false
+                });
+            });
+
+            // Render Bar Chart
+            if (chartDataDict["Volume Bar Chart"]) {
+                Plotly.newPlot("bar-chart", chartDataDict["Volume Bar Chart"].data, chartDataDict["Volume Bar Chart"].layout, {
+                    responsive: true, displayModeBar: true, displaylogo: false
+                });
+            }
+
+            // Render Pie Chart
+            if (chartDataDict["Residual Magnitude Pie"]) {
+                Plotly.newPlot("pie-chart", chartDataDict["Residual Magnitude Pie"].data, chartDataDict["Residual Magnitude Pie"].layout, {
+                    responsive: true, displayModeBar: true, displaylogo: false
+                });
+            }
+        </script>
+        {% endif %}
+
+        <!-- Insights Card -->
+        <div class="bg-gradient-to-br from-emerald-50 to-green-100 border border-emerald-200 rounded-2xl p-6">
+            <h2 class="text-xl font-semibold text-green-800 mb-4">Analysis Insights</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                        <h3 class="font-semibold text-green-800">Data Quality</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Your dataset has been successfully processed with no missing
+                        values.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                        <h3 class="font-semibold text-green-800">Pattern Detection</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Advanced algorithms have analyzed temporal patterns and trends.</p>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-3">
+                        <div class="w-3 h-3 bg-amber-500 rounded-full mr-2"></div>
+                        <h3 class="font-semibold text-green-800">Anomaly Score</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Potential anomalies have been flagged for further investigation.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const fileInput = document.getElementById("dataset-file");
+    const fileNameDisplay = document.getElementById("file-name");
+
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `Selected file: ${fileInput.files[0].name}`;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    });
+
+    $(document).ready(function () {
+        $('table').DataTable({
+            pageLength: 10,
+            lengthMenu: [5, 10, 20, 50],
+            ordering: true,
+            searching: true
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            document.getElementById("splashScreen").style.display = "none";
+            document.getElementById("mainContent").classList.remove("hidden");
+            document.getElementById("mainContent").classList.add("animate__animated", "animate__fadeIn");
+
+            // 🔥 Force Plotly to resize after splash
+            setTimeout(() => {
+                if (typeof Plotly !== "undefined") {
+                    Plotly.Plots.resize("plotly-chart");
+                    Plotly.Plots.resize("bar-chart");
+                    Plotly.Plots.resize("pie-chart");
+                }
+            }, 500); // small delay to ensure DOM is ready
+        }, 2500); // 2.5 seconds
+    });
+</script>
+
+{% endblock %}
